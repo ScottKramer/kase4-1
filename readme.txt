@@ -6,6 +6,7 @@ c) Docker Redis must be running on 192.168.99.100
 
 IDE: IntelliJ or STS
 ----------------------------------
+//TODO: add restassured; add swagger; add archaius; add ribbon; http://localhost:8686/hystrix
 
  1. Start Redis from VM
 

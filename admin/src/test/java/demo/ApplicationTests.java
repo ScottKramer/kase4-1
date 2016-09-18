@@ -1,7 +1,5 @@
 package demo;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
+
+import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminApplication.class)
@@ -53,5 +55,24 @@ public class ApplicationTests {
 				+ "/user", String.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
+
+	//{"name":"user","roles":["ROLE_USER"]}
+    @Test
+	public void restassured_VerifyGatewaySecurity() {
+		given().
+				contentType("application/json").
+				when().
+				get("/user").
+				then().
+				body(containsString("timestamp")).
+				body(containsString("status")).
+				body(containsString("Unauthorized")).
+                body(containsString("message")).
+                body(containsString("Full authentication is required to access this resource")).
+                body(containsString("path")).
+                body(containsString("/user")).
+                statusCode(401);
+	}
+
 
 }
