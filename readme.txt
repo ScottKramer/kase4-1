@@ -2,9 +2,9 @@ Pre-requisites
 
 a) Docker Machine Running; Docker Required:
 b) Virtual Environment Users: Virtual Box and Docker
+c) Docker Redis must be running on 192.168.99.100
 
 IDE: IntelliJ or STS
-
 ----------------------------------
 
  1. Start Redis from VM
