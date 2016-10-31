@@ -6,7 +6,9 @@ c) Docker Redis must be running on 192.168.99.100
 
 IDE: IntelliJ or STS
 ----------------------------------
-//TODO: add restassured; add swagger; add archaius; add ribbon; http://localhost:8686/hystrix
+// add restassured; add swagger; add archaius; add metrix; add turbine; add ribbon; http://localhost:8686/hystrix
+// splunk or elastic search  or RestEasy; add Grafana; add Yammer; add Flyway
+
 
  1. Start Redis from VM
 
@@ -33,6 +35,22 @@ IDE: IntelliJ or STS
  9. Go to Vendor app
 
 10. Go to localhost:8686/hystrix  ( Reminder --> 20 failures in 5 seconds is the default in Hystrix )
-    http://localhost:9000/hystrix.stream
+
+    HYSTRIX STREAM
+    http://localhost:8080/hystrix.stream
+
+    TURBINE STREAM
+    http://localhost:8686/turbine.stream?cluster=SAMPLE-HYSTRIX-AGGREGATE
+
 
 11. To test the Hystrix shut down the VendorServiceApplication
+
+12. Swagger
+<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
+<dependency>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-annotations</artifactId>
+    <version>1.5.10</version>
+</dependency>
+@Api(value = "contacts", description = "contacts") // Swagger annotation
+/api-docs to see docs
