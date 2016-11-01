@@ -1,7 +1,10 @@
 package demo;
 
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.codahale.metrics.ConsoleReporter;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,11 +12,8 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -27,14 +27,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @RestController
 @EnableRedisHttpSession
-@EnableEurekaClient
+//@EnableEurekaClient  //or use EnableDiscoveryClient
+@EnableDiscoveryClient
+//@EnableFeignClients
 @EnableCircuitBreaker
 @SessionAttributes("vendors")
 public class VendorApplication {
+
+    //private final Meter requests = metrics.meter("requests");
+    //final Histogram resultCounts = registry.histogram(name(ProductDAO.class, "result-counts");
+    //resultCounts.update(results.size());
+
+    private final MetricRegistry metrics = new MetricRegistry();
+    private final Meter requestsAddVendorMetric = metrics.meter("requestsAddVendorMetric");
+    private final Timer timerAddVendor = metrics.timer("timerAddVendor");
+    ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics)
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build();
+   //reporter.start(1, TimeUnit.SECONDS);
+
 
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -60,7 +77,7 @@ public class VendorApplication {
             http
                     .httpBasic().and()
                     .authorizeRequests()
-                    .antMatchers("/index.html", "/").permitAll()
+                    .antMatchers("/index.html", "/", "/hystrix.stream", "/turbine.stream").permitAll()
                     .anyRequest().hasRole("USER");
             // @formatter:on
         }
@@ -77,11 +94,12 @@ public class VendorApplication {
     public
     @ResponseBody
     void addVendor(@ModelAttribute("vendors") List<Vendor> vendors, @RequestBody Vendor vendor) {
+        requestsAddVendorMetric.mark();
+        timerAddVendor.time();
         String identifier = idGeneratorService.generateIdentifier(serviceUrl() + "/vendor/idGenerator");
-
         vendor.setIdentifier(identifier);
-
         vendors.add(vendor);
+        timerAddVendor.time().stop();
     }
 
     public String serviceUrl() {
