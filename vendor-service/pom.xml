@@ -4,18 +4,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kase4</groupId>
-    <artifactId>kase4-vendor-service</artifactId>
+    <artifactId>vendor-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>vendor-service</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot REST Vendor Service</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.3.6.RELEASE</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath />
     </parent>
 
     <dependencyManagement>

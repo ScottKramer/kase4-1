@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kase4</groupId>
-    <artifactId>kase4-vendor-ui</artifactId>
+    <artifactId>vendor-ui</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>vendor-ui</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot UI Application</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

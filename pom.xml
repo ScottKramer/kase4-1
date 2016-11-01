@@ -10,7 +10,7 @@
 
 	<modules>
 		<module>gateway</module>
-		<module>discovery</module>
+		<module>service-registry</module>
 		<module>vendor-ui</module>
 		<module>vendor-service</module>
 		<module>hystrix-dashboard</module>

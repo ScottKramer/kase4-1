@@ -2,9 +2,6 @@ package demo;
 
 import java.io.Serializable;
 
-/**
- * Created by sherjeelg on 5/3/2016.
- */
 public class Vendor implements Serializable {
 
     private static final long serialVersionUID = 1L;

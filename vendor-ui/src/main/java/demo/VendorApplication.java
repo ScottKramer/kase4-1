@@ -29,9 +29,7 @@ import java.util.Map;
 @SpringBootApplication
 @RestController
 @EnableRedisHttpSession
-//@EnableEurekaClient  //or use EnableDiscoveryClient
 @EnableDiscoveryClient
-//@EnableFeignClients
 @EnableCircuitBreaker
 @SessionAttributes("vendors")
 public class VendorApplication {
