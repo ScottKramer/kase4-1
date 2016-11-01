@@ -6,8 +6,23 @@ c) Docker Redis must be running on 192.168.99.100
 
 IDE: IntelliJ or STS
 ----------------------------------
-// add restassured; add swagger; add archaius; add metrix; add turbine; add ribbon; http://localhost:8686/hystrix
-// splunk or elastic search  or RestEasy; add Grafana; add Yammer; add Flyway
+// ADD
+   dropbox metrix
+   oAuth
+   restassured - ext testing
+   swagger
+   archaius - config management <<NO>>
+     -->Spring boots up /initializes and connects immediately
+     -->DB Config Method via archaius for connection
+   turbine
+   ribbon
+   splunk or elastic search
+   RestEasy
+   Grafana
+   Yammer
+   Flyway
+   Spring Integration
+
 
 
  1. Start Redis from VM
@@ -43,7 +58,12 @@ IDE: IntelliJ or STS
     http://localhost:8686/turbine.stream?cluster=SAMPLE-HYSTRIX-AGGREGATE
 
 
-11. To test the Hystrix shut down the VendorServiceApplication
+11. To test the Hystrix shut down the VendorServiceApplication.....
+
+xx. To run Graphite
+    sudo docker run -d --name graphite -p 8780:80 -p 2003:2003 sitespeedio/graphite
+    http://192.168.99.100:8780
+    guest/guest
 
 12. Swagger
 <!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->

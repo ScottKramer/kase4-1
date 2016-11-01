@@ -1,8 +1,8 @@
 package demo;
 
-import com.codahale.metrics.*;
-import com.codahale.metrics.graphite.Graphite;
-import com.codahale.metrics.graphite.GraphiteReporter;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,14 +19,12 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @RestController
@@ -38,28 +36,21 @@ import java.util.concurrent.TimeUnit;
 @SessionAttributes("vendors")
 public class VendorApplication {
 
-    //final Histogram resultCounts = registry.histogram(name(ProductDAO.class, "result-counts");
-    //resultCounts.update(results.size());
     private final MetricRegistry metrics = new MetricRegistry();
     private final Meter requestsAddVendorMetric = metrics.meter("requestsAddVendorMetric");
     private final Timer timerAddVendor = metrics.timer("timerAddVendor");
-    private final String graphiteHost = "192.168.99.100";
-    private final int graphitePort = 2003;
 
+    //Metrics Reporting
     public VendorApplication() {
 
-        //DropWizard Metrics Console Reporting
+        // DropWizard Metrics Console Reporting
         //ConsoleReporter metricsConsoleReporter = ConsoleReporter.forRegistry(metrics).convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).build();
         //metricsConsoleReporter.start(10, TimeUnit.SECONDS);
 
-        final Graphite graphite = new Graphite(new InetSocketAddress(graphiteHost, graphitePort));
-        final GraphiteReporter graphiteReporter = GraphiteReporter.forRegistry(metrics)
-                .prefixedWith("demo.kase4.com")
-                .convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .filter(MetricFilter.ALL)
-                .build(graphite);
-        graphiteReporter.start(1, TimeUnit.MINUTES);
+        // Graphite Reporting to Graphite Server using Dropwizard Metrics
+        //final Graphite graphite = new Graphite(new InetSocketAddress("192.168.99.100", 2003));
+        //final GraphiteReporter graphiteReporter = GraphiteReporter.forRegistry(metrics).prefixedWith("demo.kase4.com").convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).filter(MetricFilter.ALL).build(graphite);
+        //graphiteReporter.start(1, TimeUnit.MINUTES);
 
     }
 
