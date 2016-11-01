@@ -1,7 +1,6 @@
 package demo;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by sherjeelg on 5/18/2016.
- * <p>
  * Service Class to Demo Circuit-breaker pattern using Netflix's Hystrix
  */
 @Service
